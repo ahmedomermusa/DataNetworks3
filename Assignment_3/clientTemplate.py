@@ -58,8 +58,9 @@ def list_files():
         break
 
     print("Listing files completed")
-
+    print("files_data:", responsedict)
     return responsedict
+
 
 
 def download():
@@ -68,6 +69,7 @@ def download():
     response = clientSocket.recv(1024).decode()
     print("server:" + response)
     file_id = input("Please Enter The File ID:")
+
     file_name = files_data[file_id][0]
     file_size = int(files_data[file_id][1])
     print("Downloading file_id:{}, file_name:{}, file_size:{})".format(file_id, file_name, file_size))
@@ -133,14 +135,14 @@ helpcommands = """1. list files in client directory
 4. UPLOAD a file to a server
 """
 print("type help to get list of commands. Commands are numbers only.")
-files_data = {}  # maps ids to (file_name,file_size)
+
+files_data = list_files()  # maps ids to (file_name,file_size)
 while True:
     cmd = input("Client>>")
     if cmd == '1':
         print(listdir(".\client"))
     elif cmd == '2':
-        files_data = list_files()
-        print("files_data:", files_data)
+        files_data= list_files()
     elif cmd == '3':
          download()
     elif cmd == '4':
