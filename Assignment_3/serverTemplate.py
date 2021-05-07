@@ -4,7 +4,7 @@
 from socket import *
 import hashlib
 from os import listdir, path
-
+from math import ceil
 
 #
 # Generate md5 hash function
@@ -94,9 +94,9 @@ while True:
                 response = "OK: Ready to receive file"
                 print(response)
                 connectSocket.send(response.encode())
-                endi = int(file_size) // 1024
+                endi = ceil(int(file_size)/1024)
                 i = 0
-                while True and i <= endi:
+                while True and i < endi:
                     i += 1
                     response = connectSocket.recv(1024)
                     if response:
