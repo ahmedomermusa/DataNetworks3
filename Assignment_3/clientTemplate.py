@@ -115,8 +115,6 @@ def upload():
     clientSocket.send(request.encode())
     response = clientSocket.recv(1024).decode()
     print("server:" + response)
-    file_name = input("File name:")
-    file_size = input("File size:")
 
     # request = "{};{}".format(file_name, path.getsize(".\client\\" + file_name))
     request = "{};{}".format(file_name, file_size)
