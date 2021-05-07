@@ -47,16 +47,18 @@ def list_files():
     print("Listing Files Available on the Server : ")
     clientSocket.send(request.encode())
     responsedict = {}
+    result = []
     while True:
         response = clientSocket.recv(1024)
         response = response.decode()
         if response and response != '\n':
             print(response)
-            splitresponse = response.split(';')
-            responsedict[splitresponse[0]] = tuple(splitresponse[1:])
+            result.append(response)
             continue
         break
-
+    result = ''.join(result)
+    result = result.split('\n')
+    responsedict = {f.split(';')[0]:tuple(f.split(';')[1:]) for f in result}
     print("Listing files completed")
     print("files_data:", responsedict)
     return responsedict
@@ -78,7 +80,7 @@ def download():
         clientSocket.send(request.encode())
         endi = int(file_size) // 1024
         i = 0
-        while response and i < endi:
+        while response and i <= endi:
             i += 1
             response = clientSocket.recv(1024)
             if response:
@@ -140,7 +142,7 @@ files_data = list_files()  # maps ids to (file_name,file_size)
 while True:
     cmd = input("Client>>")
     if cmd == '1':
-        print(listdir(".\client"))
+        print('\n'.join([ "{}:{}".format(f,path.getsize(".\client\\" + f)) for f in listdir(".\client")]))
     elif cmd == '2':
         files_data= list_files()
     elif cmd == '3':
