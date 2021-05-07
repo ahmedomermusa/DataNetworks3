@@ -109,7 +109,12 @@ def upload():
     if file_name not in listdir(".\client\\"):
         print("No such file exists.")
         return
-    if file_size != path.getsize(".\client\\" + file_name):
+    try: 
+        int(file_size)
+    except ValueError:
+        print("Invalid size.Size can only be intger")
+        return
+    if int(file_size) != path.getsize(".\client\\" + file_name):
         print("Warning!: entered file size is different from actual file size, this may lead to unexpected behavior.")
     request = 'UPLOAD'
     clientSocket.send(request.encode())
