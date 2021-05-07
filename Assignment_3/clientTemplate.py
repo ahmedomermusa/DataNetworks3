@@ -67,11 +67,15 @@ def list_files():
 
 
 def download():
+    file_id = input("Please Enter The File ID:")
+    if file_id not in files_data:
+        print("No such file is known.  Use LIST_FILES command (2) to update list of files from server.")
+        return
+    
     request = 'DOWNLOAD'
     clientSocket.send(request.encode())
     response = clientSocket.recv(1024).decode()
     print("server:" + response)
-    file_id = input("Please Enter The File ID:")
 
     file_name = files_data[file_id][0]
     file_size = int(files_data[file_id][1])
@@ -100,6 +104,13 @@ def download():
 
 
 def upload():
+    file_name = input("File name:")
+    file_size = input("File size:")
+    if file_name not in listdir(".\client\\"):
+        print("No such file exists.")
+        return
+    if file_size != path.getsize(".\client\\" + file_name):
+        print("Warning!: entered file size is different from actual file size, this may lead to unexpected behavior.")
     request = 'UPLOAD'
     clientSocket.send(request.encode())
     response = clientSocket.recv(1024).decode()
