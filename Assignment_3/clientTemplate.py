@@ -4,6 +4,7 @@
 from socket import *
 import hashlib
 from os import path, listdir
+from math import ceil
 
 
 #
@@ -78,9 +79,9 @@ def download():
     request = file_id
     with open(".\client\\" + file_name, 'wb') as downloadedfile:
         clientSocket.send(request.encode())
-        endi = int(file_size) // 1024
+        endi = ceil(file_size/1024)
         i = 0
-        while response and i <= endi:
+        while response and i < endi:
             i += 1
             response = clientSocket.recv(1024)
             if response:
