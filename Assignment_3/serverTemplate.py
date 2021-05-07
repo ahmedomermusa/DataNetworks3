@@ -96,7 +96,7 @@ while True:
                 connectSocket.send(response.encode())
                 endi = int(file_size) // 1024
                 i = 0
-                while True and i < endi:
+                while True and i <= endi:
                     i += 1
                     response = connectSocket.recv(1024)
                     if response:
@@ -104,7 +104,7 @@ while True:
                         continue
                     break
             print("OK: file send complete")
-            file_id = generate_md5_hash(open(".\server\\" + f, 'rb').read())
+            file_id = generate_md5_hash(open(".\server\\" + file_name, 'rb').read())
             connectSocket.send(file_id.encode())
             print("OK: md5 hash sent")
             if file_name in file_names_to_ids:
